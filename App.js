@@ -70,7 +70,7 @@ class Autoshoot extends React.Component {
       exif: false
     }).then(photo => {
       this.setState({ photo }, () => {
-        this.upLoadPicture()
+        this.uploadPicture()
           .then(this.queuePhoto)
           .catch(this.queuePhoto);
       });
