@@ -34,7 +34,8 @@ export default class App extends React.Component {
 
 const PHOTO_INTERVAL = 30000;
 const FOCUS_TIME = 3000;
-
+// might need to grab IP and swap for localhost:
+const SERVER_URL = 'http://192.168.0.18:5005/'
 
 class Autoshoot extends React.Component {
   state = {
@@ -52,17 +53,27 @@ class Autoshoot extends React.Component {
     clearInterval(this.countdown);
   }
 
+  queuePhoto = () => {
+    // In 27 seconds turn the camera back on
+    setTimeout(() => {
+      this.setState({ photo: null});
+    }, PHOTO_INTERVAL - FOCUS_TIME);
+
+    // In 30 seconds take the next picture
+    setTimeout(this.takePicture, PHOTO_INTERVAL);
+  }
+
   takePicture = () => {
     this.camera.takePictureAsync({
       quality: 0.1,
       base64: true,
       exif: false
     }).then(photo => {
-      this.setState({ photo });
-      setTimeout(() => {
-        this.setState({ photo: null});
-      }, PHOTO_INTERVAL - FOCUS_TIME);
-      setTimeout(this.takePicture, PHOTO_INTERVAL);
+      this.setState({ photo }, () => {
+        this.upLoadPicture()
+          .then(this.queuePhoto)
+          .catch(this.queuePhoto);
+      });
     });
   }
 
@@ -70,6 +81,19 @@ class Autoshoot extends React.Component {
     this.setState({
       photo: null
     })
+  }
+
+  uploadPicture = () => {
+    return fetch(SERVER_URL, {
+      body: JSON.stringify({
+        image: this.state.photo.base64
+      }),
+      headers: {
+        'content-type': 'application/json'
+      },
+      method: 'POST'
+    })
+    .then(res => res.json())
   }
 
   render() {
