@@ -2,7 +2,13 @@ import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, ImageBackground } from 'react-native';
 import { Camera, Permissions } from 'expo';
 
-export default class App extends React.Component {
+import { withAuthenticator } from 'aws-amplify-react-native'
+
+import Amplify from '@aws-amplify/core'
+import config from './aws-exports'
+Amplify.configure(config);
+
+class App extends React.Component {
   state = {
     cameraPermission: null
   }
@@ -125,6 +131,8 @@ class Autoshoot extends React.Component {
     )
   }
 }
+
+export default withAuthenticator(App);
 
 const styles = StyleSheet.create({
   container: {
