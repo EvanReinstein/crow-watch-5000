@@ -92,10 +92,12 @@ class Autoshoot extends React.Component {
   }
 
   uploadPicture = () => {
-    Storage.put('Private Content', this.state.photo.base64, { level: 'private',
+    Storage.put('Private Content 2', this.state.photo.base64, { level: 'private',
     contentType: 'image/jpeg'})
       .then(res => console.log(res))
       .catch(err => console.log(err));
+
+      // ////////////////// //
     return fetch(SERVER_URL, {
       body: JSON.stringify({
         image: this.state.photo.base64
