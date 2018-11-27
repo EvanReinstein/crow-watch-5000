@@ -4,8 +4,9 @@ import { Camera, Permissions } from 'expo';
 
 import { withAuthenticator } from 'aws-amplify-react-native'
 
-import Amplify from '@aws-amplify/core'
-import config from './aws-exports'
+import Amplify from '@aws-amplify/core';
+import Storage from '@aws-amplify/storage';
+import config from './aws-exports';
 Amplify.configure(config);
 
 class App extends React.Component {
@@ -14,6 +15,7 @@ class App extends React.Component {
   }
 
   componentDidMount() {
+    Storage.put('test.txt', 'Hello world!');
     Permissions.askAsync(Permissions.CAMERA)
       .then(({ status }) =>
         this.setState({
@@ -90,6 +92,10 @@ class Autoshoot extends React.Component {
   }
 
   uploadPicture = () => {
+    Storage.put('Private Content', this.state.photo.base64, { level: 'private',
+    contentType: 'image/jpeg'})
+      .then(res => console.log(res))
+      .catch(err => console.log(err));
     return fetch(SERVER_URL, {
       body: JSON.stringify({
         image: this.state.photo.base64
@@ -99,7 +105,7 @@ class Autoshoot extends React.Component {
       },
       method: 'POST'
     })
-    .then(res => res.json())
+    .then(res => res.json());
   }
 
   render() {
