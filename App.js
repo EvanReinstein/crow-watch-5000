@@ -6,6 +6,7 @@ import { withAuthenticator } from 'aws-amplify-react-native'
 
 import Amplify from '@aws-amplify/core';
 import Storage from '@aws-amplify/storage';
+
 import config from './aws-exports';
 Amplify.configure(config);
 
@@ -47,7 +48,8 @@ const SERVER_URL = 'http://10.1.7.90:5005/'
 
 class Autoshoot extends React.Component {
   state = {
-    photo: null
+    photo: null,
+    count: 0
   }
 
   componentDidMount() {
@@ -83,6 +85,7 @@ class Autoshoot extends React.Component {
           .catch(this.queuePhoto);
       });
     });
+    this.state.count += 1;
   }
 
   returnCamera = () => {
@@ -92,10 +95,15 @@ class Autoshoot extends React.Component {
   }
 
   uploadPicture = () => {
-    Storage.put('Private Content 2', this.state.photo.base64, { level: 'private',
+    Storage.put(`Photo: ${this.state.count}`, this.state.photo.base64, { level: 'private',
     contentType: 'image/jpeg'})
       .then(res => console.log(res))
       .catch(err => console.log(err));
+
+    // Storage.put(this.state.count, upload.this.state.photo, { level: 'private',
+    // contentType: 'image/jpeg'})
+    //   .then(res => console.log(res))
+    //   .catch(err => console.log(err));
 
       // ////////////////// //
     return fetch(SERVER_URL, {
