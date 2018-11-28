@@ -1,0 +1,14 @@
+{
+    "providers": {
+        "awscloudformation": {
+            "AuthRoleName": "crowwatch5000-20181127100645-authRole",
+            "UnauthRoleArn": "arn:aws:iam::439142173143:role/crowwatch5000-20181127100645-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::439142173143:role/crowwatch5000-20181127100645-authRole",
+            "Region": "us-west-2",
+            "DeploymentBucketName": "crowwatch5000-20181127100645-deployment",
+            "UnauthRoleName": "crowwatch5000-20181127100645-unauthRole",
+            "StackName": "crowwatch5000-20181127100645",
+            "StackId": "arn:aws:cloudformation:us-west-2:439142173143:stack/crowwatch5000-20181127100645/33b7df20-f26f-11e8-84a5-503a90a9c4d1"
+        }
+    }
+}

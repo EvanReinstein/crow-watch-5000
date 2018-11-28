@@ -5,3 +5,7 @@ npm-debug.*
 *.p12
 *.key
 *.mobileprovision
+
+
+amplify/*
+aws-exports.js

@@ -9,6 +9,8 @@
     "eject": "expo eject"
   },
   "dependencies": {
+    "aws-amplify": "^1.1.10",
+    "aws-amplify-react-native": "^2.0.8",
     "body-parser": "^1.18.3",
     "expo": "^31.0.2",
     "express": "^4.16.4",

@@ -2,12 +2,20 @@ import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, ImageBackground } from 'react-native';
 import { Camera, Permissions } from 'expo';
 
-export default class App extends React.Component {
+import { withAuthenticator } from 'aws-amplify-react-native'
+
+import Amplify from '@aws-amplify/core';
+import Storage from '@aws-amplify/storage';
+import config from './aws-exports';
+Amplify.configure(config);
+
+class App extends React.Component {
   state = {
     cameraPermission: null
   }
 
   componentDidMount() {
+    Storage.put('test.txt', 'Hello world!');
     Permissions.askAsync(Permissions.CAMERA)
       .then(({ status }) =>
         this.setState({
@@ -35,7 +43,7 @@ export default class App extends React.Component {
 const PHOTO_INTERVAL = 30000;
 const FOCUS_TIME = 3000;
 // might need to grab IP and swap for localhost:
-const SERVER_URL = 'http://192.168.0.18:5005/'
+const SERVER_URL = 'http://10.1.7.90:5005/'
 
 class Autoshoot extends React.Component {
   state = {
@@ -84,6 +92,12 @@ class Autoshoot extends React.Component {
   }
 
   uploadPicture = () => {
+    Storage.put('Private Content 2', this.state.photo.base64, { level: 'private',
+    contentType: 'image/jpeg'})
+      .then(res => console.log(res))
+      .catch(err => console.log(err));
+
+      // ////////////////// //
     return fetch(SERVER_URL, {
       body: JSON.stringify({
         image: this.state.photo.base64
@@ -93,7 +107,7 @@ class Autoshoot extends React.Component {
       },
       method: 'POST'
     })
-    .then(res => res.json())
+    .then(res => res.json());
   }
 
   render() {
@@ -125,6 +139,8 @@ class Autoshoot extends React.Component {
     )
   }
 }
+
+export default withAuthenticator(App);
 
 const styles = StyleSheet.create({
   container: {
