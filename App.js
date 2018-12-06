@@ -16,7 +16,6 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    Storage.put('test.txt', 'Hello world!');
     Permissions.askAsync(Permissions.CAMERA)
       .then(({ status }) =>
         this.setState({
