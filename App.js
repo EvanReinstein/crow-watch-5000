@@ -16,7 +16,6 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    Storage.put('test.txt', 'Hello world!');
     Permissions.askAsync(Permissions.CAMERA)
       .then(({ status }) =>
         this.setState({
@@ -95,17 +94,25 @@ class Autoshoot extends React.Component {
   }
 
   uploadPicture = () => {
-    Storage.put(`Photo: ${this.state.count}`, this.state.photo.base64, { level: 'private',
+    Storage.put(`Photo: ${this.state.count}`, this.state.photo.base64, { level: 'public',
     contentType: 'image/jpeg'})
       .then(res => console.log(res))
       .catch(err => console.log(err));
+
+    // The method below will list every file in an array.  This is nice so that
+    // you can grab the image keys, making it easier to load and display them.
+
+    // Storage.list('').then(files => console.log('photos', { files }));
+
+    // The code below was an early iteration that sent photos to a private level
+    // directory.
 
     // Storage.put(this.state.count, upload.this.state.photo, { level: 'private',
     // contentType: 'image/jpeg'})
     //   .then(res => console.log(res))
     //   .catch(err => console.log(err));
 
-      // ////////////////// //
+    // ////////////////// //
     return fetch(SERVER_URL, {
       body: JSON.stringify({
         image: this.state.photo.base64
