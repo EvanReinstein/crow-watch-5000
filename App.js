@@ -48,7 +48,7 @@ const SERVER_URL = 'http://10.1.7.90:5005/'
 class Autoshoot extends React.Component {
   state = {
     photo: null,
-    count: 0
+    count: 72
   }
 
   componentDidMount() {
